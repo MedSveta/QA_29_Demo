@@ -40,6 +40,8 @@ public class PracticeFormPage extends BasePage {
     WebElement inputCity;
     @FindBy(xpath = "//button[text()='Submit']")
     WebElement btnSubmit;
+    @FindBy(id = "example-modal-sizes-title-lg")
+    WebElement modalMessage;
 
     public void typePracticeForm(Student student) {
         hideFooter();
@@ -53,7 +55,16 @@ public class PracticeFormPage extends BasePage {
         typeDateOfBirth(student.getDateOfBirth());
         typeSubjects(student.getSubject());
         typeHobbies(student.getHobbies());
+        typeStateCity(student.getState(), student.getCity());
+        btnSubmit.click();
 
+    }
+    private void typeStateCity(String state, String city){
+        inputState.sendKeys(state);
+        inputState.sendKeys(Keys.ENTER);
+
+        inputCity.sendKeys(city);
+        inputCity.sendKeys(Keys.ENTER);
     }
     private void typeSubjects(String subjects){
         fieldSubjects.click();
@@ -95,5 +106,11 @@ public class PracticeFormPage extends BasePage {
                     break;
             }
         }
+    }
+    public boolean validateModalMessage(){
+        return validateTextInElement(modalMessage, "Thanks for submitting the form");
+    }
+    public boolean validateModalMessageNegative(){
+        return validateTextInElement(modalMessage, "Negative");
     }
 }
